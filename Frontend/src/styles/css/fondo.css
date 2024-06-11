@@ -1,0 +1,9 @@
+#fondo{
+    background-image: url('../images/salud.png');
+    background-size: contain cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#field{
+    margin: 50px;
+}
