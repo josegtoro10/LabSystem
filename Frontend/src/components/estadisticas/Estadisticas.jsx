@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import salud2 from "../../styles/images/salud2.png"
 import usePaciente from "../../hooks/PacienteId";
 import useMuestra from "../../hooks/MuestraId";
-
+import { IoSearch } from "react-icons/io5";
 
 const PacientesAtendidos = () => {
   const [rangoEdadSeleccionado, setRangoEdadSeleccionado] = useState('');
@@ -12,6 +12,7 @@ const PacientesAtendidos = () => {
   const [sizePagina, setSizePagina] = useState(10);
   const [fechaInicio, setFechaInicio] = useState('');
   const [fechaFin, setFechaFin] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const inicio = (paginaActual - 1) * sizePagina;
   const fin = inicio + sizePagina;
   const datosPaginados = datosMapeados.slice(inicio, fin);
@@ -26,6 +27,10 @@ const PacientesAtendidos = () => {
 
   const handlePageSizeChange = (event) => {
     setSizePagina(parseInt(event.target.value));
+  };
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const mapearDatos = (muestraId, pacienteId) => {
@@ -85,6 +90,17 @@ const PacientesAtendidos = () => {
         }
       });
     }
+    if (searchTerm){
+      const filtered = filteredData.filter((datosPaginados) => {
+        const searchTermLowerCase = searchTerm.toLowerCase();
+        return (
+          datosPaginados.cedula.toLowerCase().includes(searchTermLowerCase) ||
+          datosPaginados.nombre.toLowerCase().includes(searchTermLowerCase) ||
+          datosPaginados.apellido.toLowerCase().includes(searchTermLowerCase)
+        );
+      });
+      return filtered;
+    }
     return filteredData;
   };
   
@@ -93,6 +109,7 @@ const PacientesAtendidos = () => {
     setFechaFin('');
     setSexoSeleccionado('');
     setRangoEdadSeleccionado('');
+    setSearchTerm('');
   };
 
   return (
@@ -108,12 +125,27 @@ const PacientesAtendidos = () => {
       <div className="field">
         <button className="button is-danger" onClick={handleClearDates}>Limpiar Filtros</button>
       </div>
+      <div className="field">
+          <div className="control has-icons-left">
+            <span className="icon is-left">
+              <IoSearch />
+            </span>
+            <input
+              className="input"
+              type="text"
+              value={searchTerm}
+              onChange={handleChange}
+              placeholder="Buscar Paciente"
+              style={{ width: '350px', height: '35px' }}
+            />
+          </div>
+        </div>
       <div className="field-body">
         <div className="field">
           <div className="control">
             <div className="select is-multiple">
               <label className="label">Sexo:</label>
-              <select value={sexoSeleccionado} onChange={(e) => setSexoSeleccionado(e.target.value)}>
+              <select value={sexoSeleccionado} onChange={(e) => setSexoSeleccionado(e.target.value)} style={{ width: '200px', height: '35px' }}>
                 <option value="">Todos</option>
                 <option value="Masculino">Masculino</option>
                 <option value="Femenino">Femenino</option>
@@ -125,7 +157,7 @@ const PacientesAtendidos = () => {
           <div className="control">
             <div className="select is-multiple">
               <label className="label">Edad:</label>
-              <select value={rangoEdadSeleccionado} onChange={(event) => setRangoEdadSeleccionado(event.target.value)}>
+              <select value={rangoEdadSeleccionado} onChange={(event) => setRangoEdadSeleccionado(event.target.value)} style={{ width: '200px', height: '35px' }}>
                 <option value="">Todos</option>
                 <option value="infante">Infante (0-5 años)</option>
                 <option value="niño">Niño (6-12 años)</option>
