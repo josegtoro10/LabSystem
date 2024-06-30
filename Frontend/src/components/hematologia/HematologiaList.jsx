@@ -151,9 +151,13 @@ const HematologiaList = () => {
             <th>PDF</th>
             )}
             <th>Acciones</th>
-            <th>Creado Por</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
+            {user && user.role === "admin" && (
+              <>
+                <th>Creado Por</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -200,9 +204,13 @@ const HematologiaList = () => {
                 ><IoTrashSharp style={{fontSize: '17px'}} />
                 </button>
               </td>
-              <td>{Hematologia.user.name}</td>
-              <td>{dayjs(Hematologia.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-              <td>{dayjs(Hematologia.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+              {user && user.role === "admin" && (
+                <>
+                  <td>{Hematologia.user.name}</td>
+                  <td>{dayjs(Hematologia.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>{dayjs(Hematologia.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

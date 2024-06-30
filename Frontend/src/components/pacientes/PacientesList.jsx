@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import salud2 from "../../styles/images/salud2.png"
 import { IoAddCircle, IoTrashSharp, IoClipboard, IoPencil, IoSearch } from "react-icons/io5";
@@ -8,6 +9,7 @@ import dayjs from 'dayjs';
 
 
 const PacientesList = () => {
+  const { user } = useSelector((state) => state.auth);
   const [Pacientes, setPacientes] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
@@ -112,9 +114,13 @@ const PacientesList = () => {
             <th>Cedula</th>
             <th>Sexo</th>
             <th>Acciones</th>
-            <th>Creado Por</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
+            {user && user.role === "admin" && (
+              <>
+                <th>Creado Por</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -145,9 +151,13 @@ const PacientesList = () => {
                   <IoTrashSharp style={{ fontSize: '17px' }} />
                 </button>
               </td>
-              <td>{Pacientes.user.name}</td>
-              <td>{dayjs(Pacientes.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-              <td>{dayjs(Pacientes.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+              {user && user.role === "admin" && (
+                <>
+                  <td>{Pacientes.user.name}</td>
+                  <td>{dayjs(Pacientes.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>{dayjs(Pacientes.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

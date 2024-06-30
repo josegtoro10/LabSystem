@@ -8,7 +8,7 @@ export const getMuestras = async (req, res) =>{
         let response;
         if(req.role === "admin"){
             response = await Muestras.findAll({
-                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId'],
+                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId','createdAt','updatedAt'],
                 include:[{
                     model: User,
                     attributes:['name','email',]
@@ -20,7 +20,7 @@ export const getMuestras = async (req, res) =>{
             });
         }else{
             response = await Muestras.findAll({
-                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId'],
+                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId','createdAt','updatedAt'],
                 where:{
                     userId: req.userId,
                 },
@@ -47,7 +47,7 @@ export const getMuestrasById = async(req, res) =>{
         let response;
         if(req.role === "admin"){ 
             response = await Muestras.findOne({
-                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId'],
+                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId','createdAt','updatedAt'],
                 where:{
                     id: muestras.id,
                 },
@@ -58,7 +58,7 @@ export const getMuestrasById = async(req, res) =>{
             });
         }else{
             response = await Muestras.findOne({
-                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId'],
+                attributes:['id','uuid','tipo','examen','fechaRecepcion','pacienteId','createdAt','updatedAt'],
                 where:{
                     [Op.and]:[{id: muestras.id}, {userId: req.userId}]
                 },

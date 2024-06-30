@@ -7,7 +7,7 @@ export const getPersonal = async (req, res) =>{
         let response;
         if(req.role === "admin"){
             response = await Personal.findAll({
-                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso'],
+                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso','createdAt','updatedAt'],
                 include:[{
                     model: User,
                     attributes:['name','email']
@@ -15,7 +15,7 @@ export const getPersonal = async (req, res) =>{
             });
         }else{
             response = await Personal.findAll({
-                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso'],
+                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso','createdAt','updatedAt'],
                 where:{
                     userId: req.userId
                 },
@@ -42,7 +42,7 @@ export const getPersonalById = async(req, res) =>{
         let response;
         if(req.role === "admin"){
             response = await Personal.findOne({
-                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso'],
+                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso','createdAt','updatedAt'],
                 where:{
                     id: personal.id
                 },
@@ -53,7 +53,7 @@ export const getPersonalById = async(req, res) =>{
             });
         }else{
             response = await Personal.findOne({
-                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso'],
+                attributes:['uuid','codigo','nombre','apellido','cedula','telefono','sexo','edad','direccion','cargo','turno','estatus','fechaIngreso','createdAt','updatedAt'],
                 where:{
                     [Op.and]:[{id: personal.id}, {userId: req.userId}]
                 },

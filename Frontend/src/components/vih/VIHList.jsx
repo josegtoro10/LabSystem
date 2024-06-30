@@ -153,9 +153,13 @@ const VIHList = () => {
             <th>PDF</th>
             )}
             <th>Acciones</th>
-            <th>Creado Por</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
+            {user && user.role === "admin" && (
+              <>
+                <th>Creado Por</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -202,9 +206,13 @@ const VIHList = () => {
                 ><IoTrashSharp style={{fontSize: '17px'}} />
                 </button>
               </td>
-              <td>{VIH.user.name}</td>
-              <td>{dayjs(VIH.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-              <td>{dayjs(VIH.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+              {user && user.role === "admin" && (
+                <>
+                  <td>{VIH.user.name}</td>
+                  <td>{dayjs(VIH.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>{dayjs(VIH.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

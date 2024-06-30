@@ -5,7 +5,7 @@ import {Op} from "sequelize";
 export const getUsers = async(req, res) =>{
     try {
         const response = await User.findAll({
-            attributes:['uuid','name','email','role']
+            attributes:['uuid','name','email','role','createdAt','updatedAt']
         });
         res.status(200).json(response);
     } catch (error) {
@@ -16,7 +16,7 @@ export const getUsers = async(req, res) =>{
 export const getUserById = async(req, res) =>{
     try {
         const response = await User.findOne({
-            attributes:['uuid','name','email','role'],
+            attributes:['uuid','name','email','role','createdAt','updatedAt'],
             where: {
                 [Op.or]:[{id: req.params.id}, {uuid: req.params.id}] 
             }

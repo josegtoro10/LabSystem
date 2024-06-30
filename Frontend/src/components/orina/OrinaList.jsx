@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import usePaciente from "../../hooks/PacienteId";
 import salud2 from "../../styles/images/salud2.png"
 import { IoTrashSharp, IoDownload, IoClipboard, IoPencil, IoAddCircle, IoSearch } from "react-icons/io5";
@@ -41,7 +41,7 @@ const OrinaList = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, eliminar"
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await axios.delete(`http://localhost:5000/resultados/orina/${orinaId}`);
         getOrina();
@@ -69,7 +69,7 @@ const OrinaList = () => {
   const filterOptions = () => {
     const filteredOptions = datosPaginados.filter((datosPaginados) => {
       if (!datosPaginados) {
-        return false; 
+        return false;
       }
       const searchTermLowerCase = searchTerm.toLowerCase();
       return (
@@ -79,7 +79,7 @@ const OrinaList = () => {
     });
     return filteredOptions;
   };
-  
+
 
   const mapearDatos = (Orina, pacientes) => {
     return Orina.map((orina) => {
@@ -126,7 +126,7 @@ const OrinaList = () => {
         <div className="field">
           <div className="control has-icons-left">
             <span className="icon is-left">
-              <IoSearch /> 
+              <IoSearch />
             </span>
             <input
               className="input"
@@ -148,12 +148,16 @@ const OrinaList = () => {
             <th>Fecha Entrega</th>
             <th>Estatus</th>
             {user && user.role === "admin" && (
-            <th>PDF</th>
+              <th>PDF</th>
             )}
             <th>Acciones</th>
-            <th>Creado Por</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
+            {user && user.role === "admin" && (
+              <>
+                <th>Creado Por</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -167,42 +171,46 @@ const OrinaList = () => {
               <td>{Orina.estatus}</td>
               {user && user.role === "admin" && (
                 <td>
-                <div>
-                <PDFDownloadLink document={<PDF id={Orina.id} doc={Orina} />} fileName="Resultado-Orina.pdf">
-                  {({ loading, url, error, blob }) =>
-                    loading ? (
-                      <button className="button is-small is-danger" disabled={Orina.estatus !== "Entregado"}>Cargando PDF...</button>
-                    ) : (
-                      <button className="button is-small is-danger" disabled={Orina.estatus !== "Entregado"}><IoDownload style={{fontSize: '17px'}}/></button>
-                    )
-                  }
-                </PDFDownloadLink>
-                </div>
+                  <div>
+                    <PDFDownloadLink document={<PDF id={Orina.id} doc={Orina} />} fileName="Resultado-Orina.pdf">
+                      {({ loading, url, error, blob }) =>
+                        loading ? (
+                          <button className="button is-small is-danger" disabled={Orina.estatus !== "Entregado"}>Cargando PDF...</button>
+                        ) : (
+                          <button className="button is-small is-danger" disabled={Orina.estatus !== "Entregado"}><IoDownload style={{ fontSize: '17px' }} /></button>
+                        )
+                      }
+                    </PDFDownloadLink>
+                  </div>
                 </td>
               )}
-              
+
               <td className="buttons">
                 <Link
                   to={`/resultados/orina/detalles/${Orina.uuid}`}
                   className="button is-small is-primary"
                 >
-                  <IoClipboard style={{fontSize: '17px'}}/>
+                  <IoClipboard style={{ fontSize: '17px' }} />
                 </Link>
                 <Link
                   to={`/resultados/orina/edit/${Orina.uuid}`}
                   className="button is-small is-link"
                 >
-                 <IoPencil style={{fontSize: '17px'}}/>
+                  <IoPencil style={{ fontSize: '17px' }} />
                 </Link>
                 <button
                   onClick={() => deleteOrina(Orina.uuid)}
                   className="button is-small is-danger"
-                ><IoTrashSharp style={{fontSize: '17px'}} />
+                ><IoTrashSharp style={{ fontSize: '17px' }} />
                 </button>
               </td>
-              <td>{Orina.user.name}</td>
-              <td>{dayjs(Orina.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-              <td>{dayjs(Orina.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+              {user && user.role === "admin" && (
+                <>
+                  <td>{Orina.user.name}</td>
+                  <td>{dayjs(Orina.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>{dayjs(Orina.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>
@@ -221,14 +229,14 @@ const OrinaList = () => {
         </button>
       </div><br />
       <div className="field">
-          <div className="select is-multiple">
-            <select value={sizePagina} onChange={handlePageSizeChange}>
-              <option value="10000000">Todos</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </div>
+        <div className="select is-multiple">
+          <select value={sizePagina} onChange={handlePageSizeChange}>
+            <option value="10000000">Todos</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
         </div>
+      </div>
     </div>
   );
 };

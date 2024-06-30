@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import salud2 from "../../styles/images/salud2.png"
 import { IoAddCircle, IoTrashSharp, IoClipboard, IoPencil, IoSearch } from "react-icons/io5";
@@ -8,6 +9,7 @@ import Swal from 'sweetalert2'
 import dayjs from 'dayjs';
 
 const MuestrasList = () => {
+  const { user } = useSelector((state) => state.auth);
   const [datosMapeados, setDatosMapeados] = useState([]);
   const [Muestras, setMuestras] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
@@ -68,7 +70,7 @@ const MuestrasList = () => {
       if (!datosPaginados) {
         return false; 
       }
-      const searchTermLowerCase = searchTerm.toLowerCase();
+      const searchTermLowerCase = searchTerm.toLowerCase(); 
       return (
         datosPaginados.cedula?.toLowerCase().includes(searchTermLowerCase) ||
         datosPaginados.pacienteId?.toString().toLowerCase().includes(searchTermLowerCase)
@@ -144,6 +146,13 @@ const MuestrasList = () => {
             <th>Cedula del Paciente</th>
             <th>Fecha de Recepción</th>
             <th>Acciones</th>
+            {user && user.role === "admin" && (
+              <>
+                <th>Creado Por</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -175,6 +184,13 @@ const MuestrasList = () => {
                   <IoTrashSharp style={{ fontSize: '17px' }} />
                 </button>
               </td>
+              {user && user.role === "admin" && (
+                <>
+                  <td>{Muestras.user.name}</td>
+                  <td>{dayjs(Muestras.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>{dayjs(Muestras.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

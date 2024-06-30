@@ -9,7 +9,7 @@ export const getHematologia = async (req, res) =>{
         let response;
         if(req.role === "admin"){
             response = await Hematologia.findAll({
-                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 include:[{
                     model: User,
                     attributes:['name','email',]
@@ -21,7 +21,7 @@ export const getHematologia = async (req, res) =>{
             });
         }else{
             response = await Hematologia.findAll({
-                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     userId: req.userId,
                 },
@@ -49,7 +49,7 @@ export const getHematologiaById = async(req, res) =>{
         let response;
         if(req.role === "admin"){ 
             response = await Hematologia.findOne({
-                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     id: hematologia.id,
                 },
@@ -60,7 +60,7 @@ export const getHematologiaById = async(req, res) =>{
             });
         }else{
             response = await Hematologia.findOne({
-                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','hemoglobina','hematocrito','chcm','vsg','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     [Op.and]:[{id: hematologia.id}, {userId: req.userId}]
                 },

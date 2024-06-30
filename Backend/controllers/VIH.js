@@ -9,7 +9,7 @@ export const getVIH = async (req, res) =>{
         let response;
         if(req.role === "admin"){
             response = await VIH.findAll({
-                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 include:[{
                     model: User,
                     attributes:['name','email',]
@@ -21,7 +21,7 @@ export const getVIH = async (req, res) =>{
             });
         }else{
             response = await VIH.findAll({
-                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     userId: req.userId,
                 },
@@ -49,7 +49,7 @@ export const getVIHById = async(req, res) =>{
         let response;
         if(req.role === "admin"){ 
             response = await VIH.findOne({
-                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     id: vih.id,
                 },
@@ -60,7 +60,7 @@ export const getVIHById = async(req, res) =>{
             });
         }else{
             response = await VIH.findOne({
-                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','resultado','observaciones','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     [Op.and]:[{id: vih.id}, {userId: req.userId}]
                 },

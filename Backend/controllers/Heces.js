@@ -9,7 +9,7 @@ export const getHeces = async (req, res) =>{
         let response;
         if(req.role === "admin"){
             response = await Heces.findAll({
-                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 include:[{
                     model: User,
                     attributes:['name','email',]
@@ -21,7 +21,7 @@ export const getHeces = async (req, res) =>{
             });
         }else{
             response = await Heces.findAll({
-                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     userId: req.userId,
                 },
@@ -48,7 +48,7 @@ export const getHecesById = async(req, res) =>{
         let response;
         if(req.role === "admin"){ 
             response = await Heces.findOne({
-                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     id: heces.id,
                 },
@@ -59,7 +59,7 @@ export const getHecesById = async(req, res) =>{
             });
         }else{
             response = await Heces.findOne({
-                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId'],
+                attributes:['id','uuid','aspecto','consistencia','color','olor','moco','sangre','restosAlimenticios','microscopio','otrosElementos','estatus','fechaEntrega','muestraId','pacienteId','createdAt','updatedAt'],
                 where:{
                     [Op.and]:[{id: heces.id}, {userId: req.userId}]
                 },

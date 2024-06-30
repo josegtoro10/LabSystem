@@ -152,9 +152,13 @@ const HecesList = () => {
               <th>PDF</th>
             )}
             <th>Acciones</th>
-            <th>Creado Por</th>
-            <th>Creado</th>
-            <th>Actualizado</th>
+            {user && user.role === "admin" && (
+              <>
+                <th>Creado Por</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -200,9 +204,13 @@ const HecesList = () => {
                 ><IoTrashSharp style={{ fontSize: '17px' }} />
                 </button>
               </td>
-              <td>{Heces.user.name}</td>
-              <td>{dayjs(Heces.createdAt).format('DD/MM/YYYY HH:mm')}</td>
-              <td>{dayjs(Heces.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+              {user && user.role === "admin" && (
+                <>
+                  <td>{Heces.user.name}</td>
+                  <td>{dayjs(Heces.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+                  <td>{dayjs(Heces.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
+                </>
+              )}
             </tr>
           ))}
         </tbody>

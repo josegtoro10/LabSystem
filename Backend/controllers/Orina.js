@@ -11,7 +11,7 @@ export const getOrina = async (req, res) => {
         let response;
         if (req.role === "admin") {
             response = await Orina.findAll({
-                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId'],
+                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId','createdAt','updatedAt'],
                 include: [{
                     model: User,
                     attributes: ['name', 'email',]
@@ -23,7 +23,7 @@ export const getOrina = async (req, res) => {
             });
         } else {
             response = await Orina.findAll({
-                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId'],
+                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId','createdAt','updatedAt'],
                 where: {
                     userId: req.userId,
                 },
@@ -50,7 +50,7 @@ export const getOrinaById = async (req, res) => {
         let response;
         if (req.role === "admin") {
             response = await Orina.findOne({
-                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId'],
+                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId','createdAt','updatedAt'],
                 where: {
                     id: orina.id,
                 },
@@ -61,7 +61,7 @@ export const getOrinaById = async (req, res) => {
             });
         } else {
             response = await Orina.findOne({
-                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId'],
+                attributes: ['id', 'uuid', 'aspecto', 'color', 'olor', 'densidad', 'ph', 'proteinas', 'glucosa', 'nitritos', 'c_cetonicos', 'bilirrubina', 'urobilinogeno', 'hemoglobina', 'cel_epiteliales', 'bacterias', 'leucocitos', 'hematies', 'mucina', 'piocitos', 'cilindros', 'cristales', 'otros', 'estatus', 'fechaEntrega', 'muestraId', 'pacienteId','createdAt','updatedAt'],
                 where: {
                     [Op.and]: [{ id: orina.id }, { userId: req.userId }]
                 },
