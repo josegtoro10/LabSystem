@@ -26,16 +26,16 @@ const store = new sessionStore({
 });
 
 
-(async()=>{
-    await db.sync({force: true});
-    const user = await Users.create({
-        email: "laboratorio@gmail.com",
-        name: "admin",
-        password: await argon2.hash("admin"),
-        role: "admin"
-    })
-    console.log("Admin Creado",user);
-})();
+// (async()=>{
+//     await db.sync({force: true});
+//     const user = await Users.create({
+//         email: "laboratorio@gmail.com",
+//         name: "admin",
+//         password: await argon2.hash("admin"),
+//         role: "admin"
+//     })
+//     console.log("Admin Creado",user);
+// })();
 
 
 app.use(session({

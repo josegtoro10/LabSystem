@@ -7,7 +7,7 @@ export const getPacientes = async (req, res) => {
         let response;
         if (req.role === "admin") {
             response = await Pacientes.findAll({
-                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion'],
+                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion','createdAt','updatedAt'],
                 include: [{
                     model: User,
                     attributes: ['name', 'email']
@@ -15,7 +15,7 @@ export const getPacientes = async (req, res) => {
             });
         } else {
             response = await Pacientes.findAll({
-                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion'],
+                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion','createdAt','updatedAt'],
                 where: {
                     userId: req.userId
                 },
@@ -42,7 +42,7 @@ export const getPacientesById = async (req, res) => {
         let response;
         if (req.role === "admin") {
             response = await Pacientes.findOne({
-                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion'],
+                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion','createdAt','updatedAt'],
                 where: {
                     id: pacientes.id
                 },
@@ -53,7 +53,7 @@ export const getPacientesById = async (req, res) => {
             });
         } else {
             response = await Pacientes.findOne({
-                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion'],
+                attributes: ['id', 'uuid', 'cedula', 'nombre', 'apellido', 'telefono', 'sexo', 'edad', 'direccion','createdAt','updatedAt'],
                 where: {
                     [Op.and]: [{ id: pacientes.id }, { userId: req.userId }]
                 },

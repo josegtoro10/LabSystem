@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import salud2 from "../../styles/images/salud2.png"
 import { Document, Text, Page, StyleSheet, View, Image } from "@react-pdf/renderer";
+import dayjs from 'dayjs';
 
 const styles = StyleSheet.create({
   page: {
@@ -94,7 +95,7 @@ const PDF = ({ id, doc }) => {
               Cedula: {paciente.cedula}
             </Text>
             <Text style={styles.texto}>
-              Fecha: {doc.fechaEntrega}
+              Fecha: {dayjs(doc.fechaEntrega).format('DD/MM/YYYY')}
             </Text>
           </View>
           <View style={{ marginTop: 25 }}>

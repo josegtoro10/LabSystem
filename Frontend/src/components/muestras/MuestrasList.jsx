@@ -5,7 +5,7 @@ import salud2 from "../../styles/images/salud2.png"
 import { IoAddCircle, IoTrashSharp, IoClipboard, IoPencil, IoSearch } from "react-icons/io5";
 import usePaciente from "../../hooks/PacienteId";
 import Swal from 'sweetalert2'
-
+import dayjs from 'dayjs';
 
 const MuestrasList = () => {
   const [datosMapeados, setDatosMapeados] = useState([]);
@@ -48,13 +48,6 @@ const MuestrasList = () => {
           icon: "success"
         });
       }
-      // if (AxiosError.message === 'Request failed with status code 500'){
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "¡Error!",
-      //     text: "No se puede eliminar una muestra que ya tiene un resultado procesado!",
-      //   });
-      // }
     });
   };
 
@@ -161,7 +154,7 @@ const MuestrasList = () => {
               <td>{Muestras.examen}</td>
               <td>{Muestras.pacienteId}</td>
               <td>{Muestras.cedula}</td>
-              <td>{Muestras.fechaRecepcion}</td>
+              <td>{dayjs(Muestras.fechaRecepcion).format('DD/MM/YYYY')}</td>
               <td className="buttons">
                 <Link
                   to={`/muestras/detalles/${Muestras.uuid}`}

@@ -8,6 +8,7 @@ import { IoTrashSharp, IoDownload, IoClipboard, IoPencil, IoAddCircle, IoSearch 
 import PDF from "./PDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
+import dayjs from 'dayjs';
 
 const VIHList = () => {
   const [datosMapeados, setDatosMapeados] = useState([]);
@@ -152,6 +153,9 @@ const VIHList = () => {
             <th>PDF</th>
             )}
             <th>Acciones</th>
+            <th>Creado Por</th>
+            <th>Creado</th>
+            <th>Actualizado</th>
           </tr>
         </thead>
         <tbody>
@@ -161,7 +165,7 @@ const VIHList = () => {
               <td>{VIH.muestraId}</td>
               <td>{VIH.pacienteId}</td>
               <td>{VIH.cedula}</td>
-              <td>{VIH.fechaEntrega}</td>
+              <td>{dayjs(VIH.fechaEntrega).format('DD/MM/YYYY')}</td>
               <td>{VIH.estatus}</td>
               {user && user.role === "admin" && (
                 <td>
@@ -198,6 +202,9 @@ const VIHList = () => {
                 ><IoTrashSharp style={{fontSize: '17px'}} />
                 </button>
               </td>
+              <td>{VIH.user.name}</td>
+              <td>{dayjs(VIH.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+              <td>{dayjs(VIH.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
             </tr>
           ))}
         </tbody>

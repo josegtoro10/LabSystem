@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import salud2 from "../../styles/images/salud2.png"
 import { IoAddCircle, IoTrashSharp, IoClipboard, IoPencil, IoSearch } from "react-icons/io5";
 import Swal from 'sweetalert2'
+import dayjs from 'dayjs';
+
 
 const PacientesList = () => {
   const [Pacientes, setPacientes] = useState([]);
@@ -32,7 +34,7 @@ const PacientesList = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, eliminar"
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await axios.delete(`http://localhost:5000/pacientes/${pacientesId}`);
         getPacientes();
@@ -110,6 +112,9 @@ const PacientesList = () => {
             <th>Cedula</th>
             <th>Sexo</th>
             <th>Acciones</th>
+            <th>Creado Por</th>
+            <th>Creado</th>
+            <th>Actualizado</th>
           </tr>
         </thead>
         <tbody>
@@ -140,6 +145,9 @@ const PacientesList = () => {
                   <IoTrashSharp style={{ fontSize: '17px' }} />
                 </button>
               </td>
+              <td>{Pacientes.user.name}</td>
+              <td>{dayjs(Pacientes.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+              <td>{dayjs(Pacientes.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
             </tr>
           ))}
         </tbody>
@@ -164,8 +172,8 @@ const PacientesList = () => {
             <option value="10">10</option>
             <option value="15">15</option>
           </select>
-          </div>
         </div>
+      </div>
     </div>
   );
 };

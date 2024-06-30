@@ -3,6 +3,7 @@ import salud2 from "../../styles/images/salud2.png"
 import usePaciente from "../../hooks/PacienteId";
 import useMuestra from "../../hooks/MuestraId";
 import { IoSearch } from "react-icons/io5";
+import dayjs from 'dayjs';
 
 const PacientesAtendidos = () => {
   const [rangoEdadSeleccionado, setRangoEdadSeleccionado] = useState('');
@@ -208,7 +209,7 @@ const PacientesAtendidos = () => {
               <td>{dato.cedula}</td>
               <td>{dato.edad}</td>
               <td>{dato.sexo}</td>
-              <td>{dato.fechasAtencion}</td>
+              <td>{dayjs(dato.fechasAtencion).format('DD/MM/YYYY')}</td>
             </tr>
           ))}
         </tbody>

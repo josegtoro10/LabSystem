@@ -8,6 +8,7 @@ import { IoTrashSharp, IoDownload, IoAddCircle, IoClipboard, IoPencil, IoSearch}
 import PDF from "./PDF";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
+import dayjs from 'dayjs';
 
 const HematologiaList = () => {
   const [datosMapeados, setDatosMapeados] = useState([]);
@@ -150,6 +151,9 @@ const HematologiaList = () => {
             <th>PDF</th>
             )}
             <th>Acciones</th>
+            <th>Creado Por</th>
+            <th>Creado</th>
+            <th>Actualizado</th>
           </tr>
         </thead>
         <tbody>
@@ -159,7 +163,7 @@ const HematologiaList = () => {
               <td>{Hematologia.muestraId}</td>
               <td>{Hematologia.pacienteId}</td>
               <td>{Hematologia.cedula}</td>
-              <td>{Hematologia.fechaEntrega}</td>
+              <td>{dayjs(Hematologia.fechaEntrega).format('DD/MM/YYYY')}</td>
               <td>{Hematologia.estatus}</td>  
               {user && user.role === "admin" && (
                 <td>
@@ -196,6 +200,9 @@ const HematologiaList = () => {
                 ><IoTrashSharp style={{fontSize: '17px'}} />
                 </button>
               </td>
+              <td>{Hematologia.user.name}</td>
+              <td>{dayjs(Hematologia.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+              <td>{dayjs(Hematologia.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
             </tr>
           ))}
         </tbody>

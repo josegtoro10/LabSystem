@@ -40,7 +40,7 @@ const Login = () => {
         <form onSubmit={Auth} className="box column">
           <div className="column has-text-centered"><img className="is-inline-block" src={salud1} width="150" alt="salud1" /></div>
           <h3 className="title is-3 has-text-centered">Inicio de Sesión</h3>
-          {isError && <p className="has-text-centered">{message}</p>}
+          {isError && <p className="title is-5 has-text-centered">{message}</p>}
           <div className="field">
             <label className="label">Usuario</label>
             <div className="control has-icons-left">

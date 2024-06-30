@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import salud2 from "../../styles/images/salud2.png"
 import { IoTrashSharp, IoPencil, IoAddCircle, IoSearch } from "react-icons/io5";
 import Swal from 'sweetalert2'
+import dayjs from 'dayjs';
 
 const Userlist = () => {
   const [users, setUsers] = useState([]);
@@ -106,6 +107,8 @@ const Userlist = () => {
             <th>Correo</th>
             <th>Role</th>
             <th>Acciones</th>
+            <th>Creado</th>
+            <th>Actualizado</th>
           </tr>
         </thead>
         <tbody>
@@ -128,6 +131,8 @@ const Userlist = () => {
                 ><IoTrashSharp style={{fontSize: '17px'}} />
                 </button>
               </td>
+              <td>{dayjs(user.createdAt).format('DD/MM/YYYY HH:mm')}</td>
+              <td>{dayjs(user.updatedAt).format('DD/MM/YYYY HH:mm')}</td>
             </tr>
           ))}
         </tbody>
