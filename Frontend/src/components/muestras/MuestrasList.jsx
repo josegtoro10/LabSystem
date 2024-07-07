@@ -17,7 +17,7 @@ const MuestrasList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const inicio = (paginaActual - 1) * sizePagina;
   const fin = inicio + sizePagina;
-  const datosPaginados = datosMapeados.slice(inicio, fin);
+  const datosPaginados = datosMapeados.slice(inicio, fin, datosMapeados);
 
   const { pacienteId } = usePaciente();
 
@@ -60,7 +60,7 @@ const MuestrasList = () => {
   const handlePageSizeChange = (event) => {
     setSizePagina(parseInt(event.target.value));
   };
-
+  
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -74,9 +74,9 @@ const MuestrasList = () => {
       return (
         datosPaginados.cedula?.toLowerCase().includes(searchTermLowerCase) ||
         datosPaginados.pacienteId?.toString().toLowerCase().includes(searchTermLowerCase)
-      );
-    });
-    return filteredOptions;
+        );
+      });
+      return filteredOptions
   };
   
 
@@ -211,7 +211,7 @@ const MuestrasList = () => {
       <div className="field">
           <div className="select is-multiple">
             <select value={sizePagina} onChange={handlePageSizeChange}>
-              <option value="10000000">Todos</option>
+            <option value="10000000">Todos</option>
               <option value="10">10</option>
               <option value="15">15</option>
             </select>

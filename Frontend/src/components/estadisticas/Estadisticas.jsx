@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import salud2 from "../../styles/images/salud2.png"
 import usePaciente from "../../hooks/PacienteId";
 import useMuestra from "../../hooks/MuestraId";
-import { IoSearch } from "react-icons/io5";
+import { IoSearch, IoDocumentTextOutline } from "react-icons/io5";
+import Reporte from "./Reporte";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import dayjs from 'dayjs';
 
 const PacientesAtendidos = () => {
   const [rangoEdadSeleccionado, setRangoEdadSeleccionado] = useState('');
   const [sexoSeleccionado, setSexoSeleccionado] = useState('');
   const [datosMapeados, setDatosMapeados] = useState([]);
+  const [count, setCount] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
   const [fechaInicio, setFechaInicio] = useState('');
@@ -21,7 +25,16 @@ const PacientesAtendidos = () => {
   const { pacienteId } = usePaciente();
 
   const { muestraId } = useMuestra();
-  
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = async () => {
+    const response = await axios.get("http://localhost:5000/muestras/count");
+    setCount(response.data);
+  };
+
   const handlePageChange = (nuevaPagina) => {
     setPaginaActual(nuevaPagina);
   };
@@ -61,7 +74,7 @@ const PacientesAtendidos = () => {
   }, [muestraId, pacienteId]);
 
   const filterOptions = () => {
-    let filteredData = datosPaginados; 
+    let filteredData = datosPaginados;
 
     if (fechaInicio && fechaFin) {
       filteredData = filteredData.filter(dato => {
@@ -78,7 +91,7 @@ const PacientesAtendidos = () => {
       filteredData = filteredData.filter(dato => {
         if (rangoEdadSeleccionado === 'infante') {
           return dato.edad >= 0 && dato.edad <= 5;
-        } else if (rangoEdadSeleccionado === 'nino') {
+        } else if (rangoEdadSeleccionado === 'niño') {
           return dato.edad >= 6 && dato.edad <= 12;
         } else if (rangoEdadSeleccionado === 'adolescente') {
           return dato.edad >= 13 && dato.edad <= 19;
@@ -91,7 +104,7 @@ const PacientesAtendidos = () => {
         }
       });
     }
-    if (searchTerm){
+    if (searchTerm) {
       const filtered = filteredData.filter((datosPaginados) => {
         const searchTermLowerCase = searchTerm.toLowerCase();
         return (
@@ -104,7 +117,7 @@ const PacientesAtendidos = () => {
     }
     return filteredData;
   };
-  
+
   const handleClearDates = () => {
     setFechaInicio('');
     setFechaFin('');
@@ -123,10 +136,12 @@ const PacientesAtendidos = () => {
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title">Estadísticas</h1>
       <h2 className="subtitle">Pacientes Atendidos</h2>
+      <h2 className="subtitle">Total: {count.count}</h2>
       <div className="field">
         <button className="button is-danger" onClick={handleClearDates}>Limpiar Filtros</button>
       </div>
-      <div className="field">
+      <div className="field-body">
+        <div className="field">
           <div className="control has-icons-left">
             <span className="icon is-left">
               <IoSearch />
@@ -141,6 +156,18 @@ const PacientesAtendidos = () => {
             />
           </div>
         </div>
+        <div className="field">
+          <PDFDownloadLink document={<Reporte doc={filterOptions()} />} fileName="Reporte-Estadisticas.pdf">
+            {({ loading, url, error, blob }) =>
+              loading ? (
+                <button className="button is-small is-danger">Cargando Reporte...</button>
+              ) : (
+                <button className="button is-small is-danger"><IoDocumentTextOutline style={{ fontSize: '17px' }} />Reporte</button>
+              )
+            }
+          </PDFDownloadLink>
+        </div>
+      </div>
       <div className="field-body">
         <div className="field">
           <div className="control">
@@ -189,7 +216,7 @@ const PacientesAtendidos = () => {
             style={{ width: '200px', height: '35px' }}
           />
         </div>
-      </div>
+      </div><br/>
       <table className="table is-narrow is-fullwidth">
         <thead>
           <tr>

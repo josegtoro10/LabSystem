@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import usePaciente from "../../hooks/PacienteId";
 import salud2 from "../../styles/images/salud2.png"
-import { IoTrashSharp, IoAddCircle, IoClipboard, IoDownload, IoPencil, IoSearch } from "react-icons/io5";
+import { IoTrashSharp, IoAddCircle, IoClipboard, IoDownload, IoPencil, IoSearch, IoDocumentTextOutline } from "react-icons/io5";
 import PDF from "./PDF";
+import Reporte from "./Reporte";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Swal from 'sweetalert2'
 import dayjs from 'dayjs';
@@ -13,6 +14,7 @@ import dayjs from 'dayjs';
 const HecesList = () => {
   const [datosMapeados, setDatosMapeados] = useState([]);
   const [Heces, setHeces] = useState([]);
+  const [count, setCount] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
@@ -22,6 +24,15 @@ const HecesList = () => {
   const datosPaginados = datosMapeados.slice(inicio, fin);
 
   const { pacienteId } = usePaciente();
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = async () => {
+    const response = await axios.get("http://localhost:5000/resultados/heces/count");
+    setCount(response.data);
+  };
 
   useEffect(() => {
     getHeces();
@@ -118,6 +129,7 @@ const HecesList = () => {
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title">Resultados</h1>
       <h2 className="subtitle">Examenes de Heces</h2>
+      <h2 className="subtitle">Total: {count.count}</h2>
       <div className="field-body">
         <div className="field">
           <Link to="/resultados/heces/add" className="button is-link mb-2">
@@ -138,6 +150,19 @@ const HecesList = () => {
             />
           </div>
         </div>
+        {user && user.role === "admin" && (
+          <div className="field">
+            <PDFDownloadLink document={<Reporte id={Heces.id} doc={filterOptions()} />} fileName="Reporte-Heces.pdf">
+              {({ loading, url, error, blob }) =>
+                loading ? (
+                  <button className="button is-small is-danger">Cargando Reporte...</button>
+                ) : (
+                  <button className="button is-small is-danger"><IoDocumentTextOutline style={{ fontSize: '17px' }} />Reporte</button>
+                )
+              }
+            </PDFDownloadLink>
+          </div>
+        )}
       </div>
       <table className="table is-narrow is-fullwidth">
         <thead>

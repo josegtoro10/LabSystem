@@ -2,18 +2,30 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import salud2 from "../../styles/images/salud2.png"
-import { IoAddCircle, IoTrashSharp, IoClipboard, IoPencil, IoSearch } from "react-icons/io5";
+import { IoAddCircle, IoTrashSharp, IoClipboard, IoPencil, IoSearch, IoDocumentTextOutline } from "react-icons/io5";
+import Reporte from "./Reporte";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
 import dayjs from 'dayjs';
 
 const PersonalList = () => {
   const [Personal, setPersonal] = useState([]);
+  const [count, setCount] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const inicio = (paginaActual - 1) * sizePagina;
   const fin = inicio + sizePagina;
   const datosPaginados = Personal.slice(inicio, fin);
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = async () => {
+    const response = await axios.get("http://localhost:5000/personal/count");
+    setCount(response.data);
+  };
 
   useEffect(() => {
     getPersonal();
@@ -76,6 +88,7 @@ const PersonalList = () => {
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title ">Personal</h1>
       <h2 className="subtitle">Lista de Personal</h2>
+      <h2 className="subtitle">Total: {count.count}</h2>
       <div className="field-body">
         <div className="field">
           <Link to="/personal/add" className="button is-link mb-2">
@@ -96,6 +109,17 @@ const PersonalList = () => {
             />
           </div>
         </div>
+        <div className="field">
+            <PDFDownloadLink document={<Reporte id={Personal.id} doc={filterOptions()} />} fileName="Reporte-Personal.pdf">
+              {({ loading, url, error, blob }) =>
+                loading ? (
+                  <button className="button is-small is-danger">Cargando Reporte...</button>
+                ) : (
+                  <button className="button is-small is-danger"><IoDocumentTextOutline style={{ fontSize: '17px' }} />Reporte</button>
+                )
+              }
+            </PDFDownloadLink>
+          </div>
       </div>
       <table className="table is-narrow is-fullwidth">
         <thead>

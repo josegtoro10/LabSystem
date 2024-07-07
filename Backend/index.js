@@ -4,6 +4,7 @@ import cors from "cors";
 import session from "express-session";
 import dotenv from "dotenv";
 import db from "./config/Database.js";
+import {ejecutarRespaldoDiario} from "./config/Database.js";
 import SequelizeStore from "connect-session-sequelize";
 import UserRoute from "./routes/UserRoute.js";
 import PacientesRoute from "./routes/PacientesRoute.js"
@@ -16,6 +17,7 @@ import OrinaRoute from "./routes/OrinaRoute.js";
 import VIHRoute from "./routes/VIHRoute.js"
 import Users from "./models/UserModel.js";
 dotenv.config();
+ejecutarRespaldoDiario()
 
 const app = express();
 

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import usePaciente from "../../hooks/PacienteId";
 import salud2 from "../../styles/images/salud2.png"
-import { IoTrashSharp, IoDownload, IoAddCircle, IoClipboard, IoPencil, IoSearch} from "react-icons/io5";
+import { IoTrashSharp, IoDownload, IoAddCircle, IoClipboard, IoPencil, IoSearch, IoDocumentTextOutline } from "react-icons/io5";
 import PDF from "./PDF";
+import Reporte from "./Reporte";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import Swal from "sweetalert2";
 import dayjs from 'dayjs';
@@ -13,6 +14,7 @@ import dayjs from 'dayjs';
 const HematologiaList = () => {
   const [datosMapeados, setDatosMapeados] = useState([]);
   const [Hematologia, setHematologia] = useState([]);
+  const [count, setCount] = useState([]);
   const { user } = useSelector((state) => state.auth);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
@@ -22,6 +24,15 @@ const HematologiaList = () => {
   const datosPaginados = datosMapeados.slice(inicio, fin);
 
   const { pacienteId } = usePaciente();
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = async () => {
+    const response = await axios.get("http://localhost:5000/resultados/hematologia/count");
+    setCount(response.data);
+  };
 
   useEffect(() => {
     getHematologia();
@@ -41,7 +52,7 @@ const HematologiaList = () => {
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Si, eliminar"
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await axios.delete(`http://localhost:5000/resultados/hematologia/${hematologiaId}`);
         getHematologia();
@@ -69,7 +80,7 @@ const HematologiaList = () => {
   const filterOptions = () => {
     const filteredOptions = datosPaginados.filter((datosPaginados) => {
       if (!datosPaginados) {
-        return false; 
+        return false;
       }
       const searchTermLowerCase = searchTerm.toLowerCase();
       return (
@@ -79,7 +90,7 @@ const HematologiaList = () => {
     });
     return filteredOptions;
   };
-  
+
 
   const mapearDatos = (Hematologia, pacientes) => {
     return Hematologia.map((hematologia) => {
@@ -117,6 +128,7 @@ const HematologiaList = () => {
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title">Resultados</h1>
       <h2 className="subtitle">Examenes de Hematologia</h2>
+      <h2 className="subtitle">Total: {count.count}</h2>
       <div className="field-body">
         <div className="field">
           <Link to="/resultados/hematologia/add" className="button is-link mb-2">
@@ -137,6 +149,20 @@ const HematologiaList = () => {
             />
           </div>
         </div>
+
+        {user && user.role === "admin" && (
+          <div className="field">
+            <PDFDownloadLink document={<Reporte id={Hematologia.id} doc={filterOptions()} />} fileName="Reporte-Hematologia.pdf">
+              {({ loading, url, error, blob }) =>
+                loading ? (
+                  <button className="button is-small is-danger">Cargando Reporte...</button>
+                ) : (
+                  <button className="button is-small is-danger"><IoDocumentTextOutline style={{ fontSize: '17px' }} />Reporte</button>
+                )
+              }
+            </PDFDownloadLink>
+          </div>
+        )}
       </div>
       <table className="table is-narrow is-fullwidth">
         <thead>
@@ -148,7 +174,7 @@ const HematologiaList = () => {
             <th>Fecha Entrega</th>
             <th>Estatus</th>
             {user && user.role === "admin" && (
-            <th>PDF</th>
+              <th>PDF</th>
             )}
             <th>Acciones</th>
             {user && user.role === "admin" && (
@@ -168,40 +194,40 @@ const HematologiaList = () => {
               <td>{Hematologia.pacienteId}</td>
               <td>{Hematologia.cedula}</td>
               <td>{dayjs(Hematologia.fechaEntrega).format('DD/MM/YYYY')}</td>
-              <td>{Hematologia.estatus}</td>  
+              <td>{Hematologia.estatus}</td>
               {user && user.role === "admin" && (
                 <td>
-                <div>
-                <PDFDownloadLink document={<PDF id={Hematologia.id} doc={Hematologia} />} fileName="Resultado-Hematologia.pdf">
-                  {({ loading, url, error, blob }) =>
-                    loading ? (
-                      <button className="button is-small is-danger" disabled={Hematologia.estatus !== "Entregado"}>Cargando PDF...</button>
-                    ) : (
-                      <button className="button is-small is-danger" disabled={Hematologia.estatus !== "Entregado"}><IoDownload style={{fontSize: '17px'}}/></button>
-                    )
-                  }
-                </PDFDownloadLink>
-                </div>
+                  <div>
+                    <PDFDownloadLink document={<PDF id={Hematologia.id} doc={Hematologia} />} fileName="Resultado-Hematologia.pdf">
+                      {({ loading, url, error, blob }) =>
+                        loading ? (
+                          <button className="button is-small is-danger" disabled={Hematologia.estatus !== "Entregado"}>Cargando PDF...</button>
+                        ) : (
+                          <button className="button is-small is-danger" disabled={Hematologia.estatus !== "Entregado"}><IoDownload style={{ fontSize: '17px' }} /></button>
+                        )
+                      }
+                    </PDFDownloadLink>
+                  </div>
                 </td>
               )}
-              
+
               <td className="buttons">
                 <Link
                   to={`/resultados/hematologia/detalles/${Hematologia.uuid}`}
                   className="button is-small is-primary"
                 >
-                  <IoClipboard style={{fontSize: '17px'}}/>
+                  <IoClipboard style={{ fontSize: '17px' }} />
                 </Link>
                 <Link
                   to={`/resultados/hematologia/edit/${Hematologia.uuid}`}
                   className="button is-small is-link"
                 >
-                 <IoPencil style={{fontSize: '17px'}}/>
+                  <IoPencil style={{ fontSize: '17px' }} />
                 </Link>
                 <button
                   onClick={() => deleteHematologia(Hematologia.uuid)}
                   className="button is-small is-danger"
-                ><IoTrashSharp style={{fontSize: '17px'}} />
+                ><IoTrashSharp style={{ fontSize: '17px' }} />
                 </button>
               </td>
               {user && user.role === "admin" && (
@@ -229,14 +255,14 @@ const HematologiaList = () => {
         </button>
       </div><br />
       <div className="field">
-          <div className="select is-multiple">
-            <select value={sizePagina} onChange={handlePageSizeChange}>
-              <option value="10000000">Todos</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-            </select>
-          </div>
+        <div className="select is-multiple">
+          <select value={sizePagina} onChange={handlePageSizeChange}>
+            <option value="10000000">Todos</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
         </div>
+      </div>
     </div>
   );
 };
