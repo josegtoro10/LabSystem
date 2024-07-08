@@ -110,7 +110,7 @@ const PersonalList = () => {
           </div>
         </div>
         <div className="field">
-            <PDFDownloadLink document={<Reporte id={Personal.id} doc={filterOptions()} />} fileName="Reporte-Personal.pdf">
+            <PDFDownloadLink document={<Reporte id={Personal.id} doc={Personal} />} fileName="Reporte-Personal.pdf">
               {({ loading, url, error, blob }) =>
                 loading ? (
                   <button className="button is-small is-danger">Cargando Reporte...</button>

@@ -153,7 +153,7 @@ const VIHList = () => {
         </div>
         {user && user.role === "admin" && (
           <div className="field">
-            <PDFDownloadLink document={<Reporte id={VIH.id} doc={filterOptions()} />} fileName="Reporte-VIH.pdf">
+            <PDFDownloadLink document={<Reporte id={VIH.id} doc={datosMapeados} />} fileName="Reporte-VIH.pdf">
               {({ loading, url, error, blob }) =>
                 loading ? (
                   <button className="button is-small is-danger">Cargando Reporte...</button>

@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 
 const Reporte = ({ doc }) => {
     const [count, setCount] = useState([]);
-
+   
     useEffect(() => {
         getCount();
     }, []);

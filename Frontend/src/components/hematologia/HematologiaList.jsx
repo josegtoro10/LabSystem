@@ -152,7 +152,7 @@ const HematologiaList = () => {
 
         {user && user.role === "admin" && (
           <div className="field">
-            <PDFDownloadLink document={<Reporte id={Hematologia.id} doc={filterOptions()} />} fileName="Reporte-Hematologia.pdf">
+            <PDFDownloadLink document={<Reporte doc={datosMapeados} />} fileName="Reporte-Hematologia.pdf">
               {({ loading, url, error, blob }) =>
                 loading ? (
                   <button className="button is-small is-danger">Cargando Reporte...</button>

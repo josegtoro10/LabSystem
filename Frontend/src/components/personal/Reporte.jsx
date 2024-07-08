@@ -92,7 +92,7 @@ const Reporte = ({ id, doc }) => {
                     <Text style={styles.textoimagen}>"DR ISRAEL RANUAREZ BALZA</Text>
                     <Text style={styles.textoimagen}>San Juan de los Morros, Edo.Guárico</Text>
                     <Text style={styles.title}>Servicio de Laboratorio</Text>
-                    <Text style={styles.subtitle}>Lista de Empleados</Text>
+                    <Text style={styles.subtitle}>Lista del Personal</Text>
                     <Text style={styles.texto}>Fecha: {dayjs().format('DD/MM/YYYY')}</Text>
                     <Text style={styles.texto}>Total: {count.count}</Text>
                     <View style={styles.row}>

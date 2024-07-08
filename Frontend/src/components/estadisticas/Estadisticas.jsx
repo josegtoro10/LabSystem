@@ -157,7 +157,7 @@ const PacientesAtendidos = () => {
           </div>
         </div>
         <div className="field">
-          <PDFDownloadLink document={<Reporte doc={filterOptions()} />} fileName="Reporte-Estadisticas.pdf">
+          <PDFDownloadLink document={<Reporte doc={datosMapeados} />} fileName="Reporte-Estadisticas.pdf">
             {({ loading, url, error, blob }) =>
               loading ? (
                 <button className="button is-small is-danger">Cargando Reporte...</button>

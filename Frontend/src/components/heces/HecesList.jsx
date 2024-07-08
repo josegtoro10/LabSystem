@@ -152,7 +152,7 @@ const HecesList = () => {
         </div>
         {user && user.role === "admin" && (
           <div className="field">
-            <PDFDownloadLink document={<Reporte id={Heces.id} doc={filterOptions()} />} fileName="Reporte-Heces.pdf">
+            <PDFDownloadLink document={<Reporte  doc={datosMapeados} />} fileName="Reporte-Heces.pdf">
               {({ loading, url, error, blob }) =>
                 loading ? (
                   <button className="button is-small is-danger">Cargando Reporte...</button>

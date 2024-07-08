@@ -151,7 +151,7 @@ const OrinaList = () => {
         </div>
         {user && user.role === "admin" && (
           <div className="field">
-            <PDFDownloadLink document={<Reporte id={Orina.id} doc={filterOptions()} />} fileName="Reporte-Orina.pdf">
+            <PDFDownloadLink document={<Reporte id={Orina.id} doc={datosMapeados} />} fileName="Reporte-Orina.pdf">
               {({ loading, url, error, blob }) =>
                 loading ? (
                   <button className="button is-small is-danger">Cargando Reporte...</button>
