@@ -12,6 +12,7 @@ const MuestrasList = () => {
   const { user } = useSelector((state) => state.auth);
   const [datosMapeados, setDatosMapeados] = useState([]);
   const [Muestras, setMuestras] = useState([]);
+  const [count, setCount] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,6 +21,15 @@ const MuestrasList = () => {
   const datosPaginados = datosMapeados.slice(inicio, fin, datosMapeados);
 
   const { pacienteId } = usePaciente();
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = async () => {
+    const response = await axios.get("http://localhost:5000/muestras/count");
+    setCount(response.data);
+  };
 
   useEffect(() => {
     getMuestras();
@@ -115,6 +125,8 @@ const MuestrasList = () => {
         San Juan de los Morros, Edo.Guárico</p>
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title">Muestras</h1>
+      <h2 className="subtitle">Lista de Muestras</h2>
+      {user && user.role === "admin" && (<h2 className="subtitle">Total: {count.count}</h2>)}
       <div className="field-body">
         <div className="field">
           <Link to="/muestras/add" className="button is-link mb-2">

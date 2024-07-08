@@ -128,7 +128,7 @@ const OrinaList = () => {
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title">Resultados</h1>
       <h2 className="subtitle">Examenes de Orina</h2>
-      <h2 className="subtitle">Total: {count.count}</h2>
+      {user && user.role === "admin" && (<h2 className="subtitle">Total: {count.count}</h2>)}
       <div className="field-body">
         <div className="field">
           <Link to="/resultados/orina/add" className="button is-link mb-2">

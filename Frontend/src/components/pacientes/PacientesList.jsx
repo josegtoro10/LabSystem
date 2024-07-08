@@ -11,12 +11,22 @@ import dayjs from 'dayjs';
 const PacientesList = () => {
   const { user } = useSelector((state) => state.auth);
   const [Pacientes, setPacientes] = useState([]);
+  const [count, setCount] = useState([]);
   const [paginaActual, setPaginaActual] = useState(1);
   const [sizePagina, setSizePagina] = useState(10);
   const [searchTerm, setSearchTerm] = useState('');
   const inicio = (paginaActual - 1) * sizePagina;
   const fin = inicio + sizePagina;
   const datosPaginados = Pacientes.slice(inicio, fin);
+
+  useEffect(() => {
+    getCount();
+  }, []);
+
+  const getCount = async () => {
+    const response = await axios.get("http://localhost:5000/pacientes/count");
+    setCount(response.data);
+  };
 
   useEffect(() => {
     getPacientes();
@@ -84,6 +94,7 @@ const PacientesList = () => {
       <img src={salud2} width="150" alt="salud2" />
       <h1 className="title ">Pacientes</h1>
       <h2 className="subtitle">Lista de Pacientes</h2>
+      {user && user.role === "admin" && (<h2 className="subtitle">Total: {count.count}</h2>)}
       <div className="field-body">
         <div className="field">
           <Link to="/pacientes/add" className="button is-link mb-2">

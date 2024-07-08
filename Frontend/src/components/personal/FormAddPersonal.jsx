@@ -117,7 +117,7 @@ const FormAddPersonal = () => {
                                             className="input"
                                             value={apellido}
                                             onChange={(e) => setApellido(e.target.value)}
-                                            placeholder="Apellido del Paciente"
+                                            placeholder="Apellido del Empleado"
                                         />
                                     </div>
                                 </div>
@@ -188,7 +188,7 @@ const FormAddPersonal = () => {
                                             className="input"
                                             value={cargo}
                                             onChange={(e) => setCargo(e.target.value)}
-                                            placeholder="Dirección del Paciente"
+                                            placeholder="Cargo del Empleado"
                                         />
                                     </div>
                                 </div>
